@@ -2,7 +2,9 @@
   <div class="card">
     <div class="card-body">
       <span class="h3">Lista empleados</span>
-      <button class="btn btn-dark float-end">Agregar</button>
+      <button class="btn btn-dark float-end" routerLink="/create-empleado">
+        Agregar
+      </button>
       <table class="table table-striped table-hover mt-3">
         <thead>
           <tr>
@@ -18,12 +20,16 @@
             <td>Ramirez</td>
             <td>123456</td>
             <td>300</td>
+            <td><i class="uil uil-edit text-warning"></i></td>
+            <td><i class="uil uil-trash-alt text-danger"></i></td>
           </tr>
           <tr>
             <th scope="row">Laura</th>
             <td>Diaz</td>
             <td>456789</td>
             <td>400</td>
+            <td><i class="uil uil-edit text-warning"></i></td>
+            <td><i class="uil uil-trash-alt text-danger"></i></td>
           </tr>
         </tbody>
       </table>
