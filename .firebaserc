@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "crud-empleados-angular": {
+      "hosting": {
+        "empleados": [
+          "crud-empleados-angular"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "crud-empleados-angular"
+  }
+}
