@@ -19,9 +19,11 @@
             <th>{{ empleado.nombre }}</th>
             <td>{{ empleado.apellido }}</td>
             <td>{{ empleado.identificacion }}</td>
-            <td>{{ empleado.salario }}</td>
-            <td><i class="uil uil-edit text-warning"></i></td>
-            <td><i class="uil uil-trash-alt text-danger"></i></td>
+            <td>{{ empleado.salario | currency }}</td>
+            <td>
+              <i class="uil uil-edit text-warning fs-5"></i>
+            </td>
+            <td><i class="uil uil-trash-alt text-danger fs-5"></i></td>
           </tr>
         </tbody>
       </table>
