@@ -15,19 +15,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">Johan</th>
-            <td>Ramirez</td>
-            <td>123456</td>
-            <td>300</td>
-            <td><i class="uil uil-edit text-warning"></i></td>
-            <td><i class="uil uil-trash-alt text-danger"></i></td>
-          </tr>
-          <tr>
-            <th scope="row">Laura</th>
-            <td>Diaz</td>
-            <td>456789</td>
-            <td>400</td>
+          <tr *ngFor="let empleado of empleados">
+            <th>{{ empleado.nombre }}</th>
+            <td>{{ empleado.apellido }}</td>
+            <td>{{ empleado.identificacion }}</td>
+            <td>{{ empleado.salario }}</td>
             <td><i class="uil uil-edit text-warning"></i></td>
             <td><i class="uil uil-trash-alt text-danger"></i></td>
           </tr>

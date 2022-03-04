@@ -1,18 +1,26 @@
+import { EmpleadoService } from './../../service/empleado.service';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-
 @Component({
   selector: 'list-empleados',
   templateUrl: './list-empleados.component.html',
   styleUrls: ['./list-empleados.component.css'],
 })
 export class ListEmpleadosComponent implements OnInit {
-  items: Observable<any[]>;
+  empleados: any[] = [];
+  constructor(private _empleadoService: EmpleadoService) {}
 
-  constructor(firestore: AngularFirestore) {
-    this.items = firestore.collection('items').valueChanges();
+  ngOnInit(): void {
+    this.getEmpleados();
   }
 
-  ngOnInit(): void {}
+  getEmpleados() {
+    this._empleadoService.getEmpleados().subscribe((data) => {
+      data.forEach((element: any) => {
+        this.empleados.push({
+          id: element.payload.doc.id,
+          ...element.payload.doc.data(),
+        });
+      });
+    });
+  }
 }

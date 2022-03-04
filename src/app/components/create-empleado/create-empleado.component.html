@@ -4,8 +4,20 @@
     <div class="card text-center">
       <div class="card-body">
         <h3>Agregar empleado</h3>
+        <div *ngIf="loading" class="spinner-border center" role="status">
+          <span class="sr-only"></span>
+        </div>
+        <span
+          *ngIf="submited && createEmpleado.valid"
+          class="badge badge-danger"
+          >Todos los campos son requeridos</span
+        >
         <hr />
-        <form class="mt-4" [formGroup]="createEmpleado">
+        <form
+          class="mt-4"
+          [formGroup]="createEmpleado"
+          (ngSubmit)="agregarEmpleado()"
+        >
           <div class="row">
             <div class="col">
               <input
