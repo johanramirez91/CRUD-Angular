@@ -3,7 +3,7 @@
     <div class="col-lg-6"></div>
     <div class="card text-center">
       <div class="card-body">
-        <h3>Agregar empleado</h3>
+        <h3>{{ titulo }}</h3>
         <div class="d-flex justify-content-center">
           <div *ngIf="loading" class="spinner-border center" role="status">
             <span class="visually-hidden">loading...</span>
@@ -18,7 +18,7 @@
         <form
           class="mt-4"
           [formGroup]="createEmpleado"
-          (ngSubmit)="agregarEmpleado()"
+          (ngSubmit)="agregarEditar()"
         >
           <div class="row">
             <div class="col">

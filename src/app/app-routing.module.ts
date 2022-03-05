@@ -18,6 +18,10 @@ const routes: Routes = [
     component: CreateEmpleadoComponent,
   },
   {
+    path: 'edit-empleado/:id',
+    component: CreateEmpleadoComponent,
+  },
+  {
     path: '**',
     redirectTo: 'list-empleados',
     pathMatch: 'full',

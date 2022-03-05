@@ -2,10 +2,16 @@
   <div class="card">
     <div class="card-body">
       <span class="h3">Lista empleados</span>
+      <h5 *ngIf="empleados.length == 0" class="text-center mt-2">
+        No hay datos
+      </h5>
       <button class="btn btn-dark float-end" routerLink="/create-empleado">
         Agregar
       </button>
-      <table class="table table-striped table-hover mt-3">
+      <table
+        *ngIf="empleados.length > 0"
+        class="table table-striped table-hover mt-3"
+      >
         <thead>
           <tr>
             <th scope="col">Nombre</th>
@@ -21,9 +27,17 @@
             <td>{{ empleado.identificacion }}</td>
             <td>{{ empleado.salario | currency }}</td>
             <td>
-              <i class="uil uil-edit text-warning fs-5"></i>
+              <i
+                class="uil uil-edit text-warning fs-5"
+                [routerLink]="['/edit-empleado/', empleado.id]"
+              ></i>
             </td>
-            <td><i class="uil uil-trash-alt text-danger fs-5"></i></td>
+            <td>
+              <i
+                (click)="eliminarEmpleado(empleado.id)"
+                class="uil uil-trash-alt text-danger fs-5"
+              ></i>
+            </td>
           </tr>
         </tbody>
       </table>

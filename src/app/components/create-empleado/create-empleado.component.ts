@@ -1,7 +1,7 @@
 import { EmpleadoService } from './../../service/empleado.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -13,12 +13,15 @@ export class CreateEmpleadoComponent implements OnInit {
   createEmpleado: FormGroup;
   submited: boolean = false;
   loading: boolean = false;
+  id: string | null;
+  titulo: string = 'Agregar empleado';
 
   constructor(
     private fb: FormBuilder,
     private _empleadoService: EmpleadoService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private aRoute: ActivatedRoute
   ) {
     this.createEmpleado = this.fb.group({
       nombre: ['', Validators.required],
@@ -26,15 +29,14 @@ export class CreateEmpleadoComponent implements OnInit {
       identificacion: ['', Validators.required],
       salario: ['', Validators.required],
     });
+    this.id = this.aRoute.snapshot.paramMap.get('id');
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.editarEmpleado();
+  }
 
   agregarEmpleado() {
-    this.submited = true;
-    if (this.createEmpleado.invalid) {
-      return;
-    }
     const empleado: any = {
       nombre: this.createEmpleado.value.nombre,
       apellido: this.createEmpleado.value.apellido,
@@ -43,6 +45,7 @@ export class CreateEmpleadoComponent implements OnInit {
       fechaCreacion: new Date(),
       fechaActualizacion: new Date(),
     };
+
     this.loading = true;
     this._empleadoService
       .agregarEmpleado(empleado)
@@ -61,5 +64,53 @@ export class CreateEmpleadoComponent implements OnInit {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  agregarEditar() {
+    this.submited = true;
+
+    if (this.createEmpleado.invalid) {
+      return;
+    }
+
+    if (this.id === null) {
+      this.agregarEmpleado();
+    } else {
+      this.editarEmpleadoFirebase(this.id);
+    }
+  }
+
+  editarEmpleadoFirebase(id: string) {
+    const empleado: any = {
+      nombre: this.createEmpleado.value.nombre,
+      apellido: this.createEmpleado.value.apellido,
+      identificacion: this.createEmpleado.value.identificacion,
+      salario: this.createEmpleado.value.salario,
+      fechaActualizacion: new Date(),
+    };
+    this.loading = true;
+    this._empleadoService.actualizarEmpleado(id, empleado).then(() => {
+      this.loading = false;
+      this.toastr.info('Empleado actualizado', 'Se modifico un registro', {
+        positionClass: 'toast-bottom-center',
+      });
+      this.router.navigate(['/list-empleados']);
+    });
+  }
+
+  editarEmpleado() {
+    if (this.id !== null) {
+      this.titulo = 'Editar empleado';
+      this.loading = true;
+      this._empleadoService.getEmpleado(this.id).subscribe((data) => {
+        this.loading = false;
+        this.createEmpleado.setValue({
+          nombre: data.payload.data()['nombre'],
+          apellido: data.payload.data()['apellido'],
+          identificacion: data.payload.data()['identificacion'],
+          salario: data.payload.data()['salario'],
+        });
+      });
+    }
   }
 }

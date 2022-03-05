@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { EmpleadoService } from './../../service/empleado.service';
 import { Component, OnInit } from '@angular/core';
 @Component({
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListEmpleadosComponent implements OnInit {
   empleados: any[] = [];
-  constructor(private _empleadoService: EmpleadoService) {}
+  constructor(
+    private _empleadoService: EmpleadoService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getEmpleados();
@@ -15,6 +19,7 @@ export class ListEmpleadosComponent implements OnInit {
 
   getEmpleados() {
     this._empleadoService.getEmpleados().subscribe((data) => {
+      this.empleados = [];
       data.forEach((element: any) => {
         this.empleados.push({
           id: element.payload.doc.id,
@@ -22,5 +27,19 @@ export class ListEmpleadosComponent implements OnInit {
         });
       });
     });
+  }
+
+  eliminarEmpleado(id: string) {
+    this._empleadoService
+      .eliminarEmpleado(id)
+      .then(() => {
+        this.toastr.error('Empleado eliminado', 'Se eliminó un registro', {
+          positionClass: 'toast-bottom-center',
+          progressBar: true,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 }
